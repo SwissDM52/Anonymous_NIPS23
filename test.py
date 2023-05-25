@@ -1,4 +1,3 @@
-# trainstage1.py
 import torch
 import net
 import resnet as resn
