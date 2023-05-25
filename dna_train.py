@@ -8,18 +8,17 @@ import torchvision
 import torch.nn as nn
 
 BATCH_SIZE = 300
-# 准备数据集并预处理
 
 transform_train = transforms.Compose([
-    transforms.RandomCrop(32, padding=4),  # 先四周填充0，在吧图像随机裁剪成32*32
-    transforms.RandomHorizontalFlip(),  # 图像一半的概率翻转，一半的概率不翻转
+    transforms.RandomCrop(32, padding=4), 
+    transforms.RandomHorizontalFlip(), 
     transforms.ToTensor(),
-    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),  # R,G,B每层的归一化用到的均值和方差
+    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),  
 ])
 
-trainset = torchvision.datasets.CIFAR10(root='../data', train=True, download=True, transform=transform_train)  # 训练数据集
+trainset = torchvision.datasets.CIFAR10(root='../data', train=True, download=True, transform=transform_train) 
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=BATCH_SIZE, shuffle=True,
-                                          num_workers=16)  # 生成一个个batch进行批训练，组成batch的时候顺序打乱取
+                                          num_workers=16)  
 
 
 # train stage one
@@ -84,7 +83,7 @@ def train(args, train_data):
     optimizer_G = torch.optim.SGD(generator.parameters(), lr=0.001, momentum=0.9, weight_decay=5e-4)
     # optimizer_G = torch.optim.Adam(generator.parameters(), lr=1e-3, weight_decay=1e-6)
     optimizer_D = torch.optim.Adam(dismodel.parameters(), lr=1e-3, weight_decay=1e-6)
-    criterion = nn.CrossEntropyLoss()  # 损失函数为交叉熵，多用于多分类问题
+    criterion = nn.CrossEntropyLoss() 
     generator.train()
     model1.eval()
     model2_0.eval()
