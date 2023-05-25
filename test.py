@@ -116,27 +116,27 @@ if __name__ == '__main__':
     mapp3 = []
 
     model1 = resn.resnet18()
-    model1.load_state_dict(torch.load("model_source/model1.pth"))
+    model1.load_state_dict(torch.load("model1.pth"))
     model1 = model1.to(DEVICE)
 
     model2_0 = resn.resnet18()
-    model2_0.load_state_dict(torch.load("model_source/model1_1.pth"))
+    model2_0.load_state_dict(torch.load("model1_1.pth"))
     model2_0 = model2_0.to(DEVICE)
 
     model2_1 = resn.resnet18()
-    model2_1.load_state_dict(torch.load("model_source/model1_2.pth"))
+    model2_1.load_state_dict(torch.load("model1_2.pth"))
     model2_1 = model2_1.to(DEVICE)
 
     model2_2 = resn.resnet18()
-    model2_2.load_state_dict(torch.load("model_source/model1_4.pth"))
+    model2_2.load_state_dict(torch.load("model1_4.pth"))
     model2_2 = model2_2.to(DEVICE)
 
     model2_3 = resn.resnet18()
-    model2_3.load_state_dict(torch.load("model_source/model1_7.pth"))
+    model2_3.load_state_dict(torch.load("model1_7.pth"))
     model2_3 = model2_3.to(DEVICE)
 
     model2_5 = resn.resnet18()
-    model2_5.load_state_dict(torch.load("model_source/model1_0.pth"))
+    model2_5.load_state_dict(torch.load("model1_0.pth"))
     model2_5 = model2_5.to(DEVICE)
 
     mapp2.insert(len(mapp2), model2_0)
@@ -146,23 +146,23 @@ if __name__ == '__main__':
     mapp2.insert(len(mapp2), model2_5)
 
     model3_0 = resn.resnet18()
-    model3_0.load_state_dict(torch.load("model_source/model2_1.pth"))
+    model3_0.load_state_dict(torch.load("model2_1.pth"))
     model3_0 = model3_0.to(DEVICE)
 
     model3_1 = resn.resnet18()
-    model3_1.load_state_dict(torch.load("model_source/model2_2.pth"))
+    model3_1.load_state_dict(torch.load("model2_2.pth"))
     model3_1 = model3_1.to(DEVICE)
 
     model3_2 = resn.resnet18()
-    model3_2.load_state_dict(torch.load("model_source/model2_4.pth"))
+    model3_2.load_state_dict(torch.load("model2_4.pth"))
     model3_2 = model3_2.to(DEVICE)
 
     model3_3 = resn.resnet18()
-    model3_3.load_state_dict(torch.load("model_source/model2_7.pth"))
+    model3_3.load_state_dict(torch.load("model2_7.pth"))
     model3_3 = model3_3.to(DEVICE)
 
     model3_5 = resn.resnet18()
-    model3_5.load_state_dict(torch.load("model_source/model2_0.pth"))
+    model3_5.load_state_dict(torch.load("model2_0.pth"))
     model3_5 = model3_5.to(DEVICE)
 
     mapp3.insert(len(mapp3), model3_0)
@@ -171,11 +171,11 @@ if __name__ == '__main__':
     mapp3.insert(len(mapp3), model3_3)
     mapp3.insert(len(mapp3), model3_5)
     genmodel = net.SimCLRStage1()
-    genmodel.load_state_dict(torch.load("gan5_b/generator_{}.pth".format(100)))
+    genmodel.load_state_dict(torch.load("generator_{}.pth".format(100)))
     genmodel = genmodel.to(DEVICE)
 
     dismodel = resn10.resnet10()
-    dismodel.load_state_dict(torch.load("gan5_b/dismodel_{}.pth".format(100)))
+    dismodel.load_state_dict(torch.load("dismodel_{}.pth".format(100)))
     dismodel = dismodel.to(DEVICE)
     genmodel.eval()
     dismodel.eval()
@@ -185,8 +185,8 @@ if __name__ == '__main__':
         model3 = mapp3[i]
         model2.eval()
         model3.eval()
-        files = open('gan5_b.txt', mode='a')
-        files.writelines('gan5_b,i={}=====================================cifar10\n'.format(i))
+        files = open('tests.txt', mode='a')
+        files.writelines('tests,i={}=====================================cifar10\n'.format(i))
         tests(model1, model2, model3, genmodel, dismodel, trainloader, DEVICE, files)
         tests0(model1, model3, genmodel, dismodel, trainloader, DEVICE, files)
         tests1(model1, model2, genmodel, dismodel, trainloader, DEVICE, files)
