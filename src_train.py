@@ -18,11 +18,11 @@ transform_train = transforms.Compose([
     transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
 ])
 
-trainset = torchvision.datasets.CIFAR10(root='../data', train=True, download=True, transform=transform_train)  # 训练数据集
+trainset = torchvision.datasets.CIFAR10(root='../data', train=True, download=True, transform=transform_train)  
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=BATCH_SIZE, shuffle=True,
                                           num_workers=16)
 
-trainset2 = torchvision.datasets.CIFAR100(root='../data', train=True, download=True, transform=transform_train)  # 训练数据集
+trainset2 = torchvision.datasets.CIFAR100(root='../data', train=True, download=True, transform=transform_train)  
 
 
 def get_loader(trainsets, low, high):
