@@ -1,4 +1,3 @@
-# trainstage1.py
 import torch, argparse
 import net
 import resnet as resn
@@ -25,57 +24,56 @@ trainloader = torch.utils.data.DataLoader(trainset, batch_size=BATCH_SIZE, shuff
 def train(args, train_data):
     DEVICE = torch.device("cuda:0")
     generator = net.SimCLRStage1()
-    # generator.load_state_dict(torch.load("gan5_b/generator_100.pth"))
-    # model.load_state_dict(torch.load("pth/model_stage1_epoch90.pth"))
+    # generator.load_state_dict(torch.load("generator_100.pth"))
     generator = generator.to(DEVICE)
 
     # lossLR = net.Loss().to(DEVICE)
     model1 = resn.resnet18()
-    model1.load_state_dict(torch.load("model_source/model1.pth"))
+    model1.load_state_dict(torch.load("model1.pth"))
     model1 = model1.to(DEVICE)
 
     model2_0 = resn.resnet18()
-    model2_0.load_state_dict(torch.load("model_source/model1_3.pth"))
+    model2_0.load_state_dict(torch.load("model1_3.pth"))
     model2_0 = model2_0.to(DEVICE)
 
     model2_1 = resn.resnet18()
-    model2_1.load_state_dict(torch.load("model_source/model1_6.pth"))
+    model2_1.load_state_dict(torch.load("model1_6.pth"))
     model2_1 = model2_1.to(DEVICE)
 
     model2_2 = resn.resnet18()
-    model2_2.load_state_dict(torch.load("model_source/model1_8.pth"))
+    model2_2.load_state_dict(torch.load("model1_8.pth"))
     model2_2 = model2_2.to(DEVICE)
 
     model2_3 = resn.resnet18()
-    model2_3.load_state_dict(torch.load("model_source/model1_9.pth"))
+    model2_3.load_state_dict(torch.load("model1_9.pth"))
     model2_3 = model2_3.to(DEVICE)
 
     model2_5 = resn.resnet18()
-    model2_5.load_state_dict(torch.load("model_source/model1_5.pth"))
+    model2_5.load_state_dict(torch.load("model1_5.pth"))
     model2_5 = model2_5.to(DEVICE)
 
     model3_0 = resn.resnet18()
-    model3_0.load_state_dict(torch.load("model_source/model2_3.pth"))
+    model3_0.load_state_dict(torch.load("model2_3.pth"))
     model3_0 = model3_0.to(DEVICE)
 
     model3_1 = resn.resnet18()
-    model3_1.load_state_dict(torch.load("model_source/model2_6.pth"))
+    model3_1.load_state_dict(torch.load("model2_6.pth"))
     model3_1 = model3_1.to(DEVICE)
 
     model3_2 = resn.resnet18()
-    model3_2.load_state_dict(torch.load("model_source/model2_8.pth"))
+    model3_2.load_state_dict(torch.load("model2_8.pth"))
     model3_2 = model3_2.to(DEVICE)
 
     model3_3 = resn.resnet18()
-    model3_3.load_state_dict(torch.load("model_source/model2_9.pth"))
+    model3_3.load_state_dict(torch.load("model2_9.pth"))
     model3_3 = model3_3.to(DEVICE)
 
     model3_5 = resn.resnet18()
-    model3_5.load_state_dict(torch.load("model_source/model2_5.pth"))
+    model3_5.load_state_dict(torch.load("model2_5.pth"))
     model3_5 = model3_5.to(DEVICE)
 
     dismodel = classifier.resnet10()
-    # dismodel.load_state_dict(torch.load("gan5_b/dismodel_15.pth"))
+    # dismodel.load_state_dict(torch.load("dismodel_15.pth"))
     dismodel = dismodel.to(DEVICE)
 
     lossLR = net.Loss().to(DEVICE)
@@ -123,22 +121,21 @@ def train(args, train_data):
             pre_2 = outs_pre + outs_2
             pre_3 = outs_pre + outs_3
             loss_G = lossLR(pre_1, pre_2, pre_3, len(inputs) * 5)
-            # loss = lossLR(pre, pre, pre, args.batch_size)
+
             optimizer_G.zero_grad()
             loss_G.backward()
             optimizer_G.step()
-            # print("epoch", epoch, "batch", index, "loss:", loss_G.detach().item())
+
             total_loss += loss_G.detach().item()
-        # total_loss += loss.detach().item()
+
         print("epoch {} generator loss: {}".format(epoch, total_loss / (2 * len(trainset)) * args.batch_size))
         if epoch % 5 == 0:
-            # torch.save(dismodel.state_dict(), "gan5_a/dismodel_{}.pth".format(epoch))
-            torch.save(generator.state_dict(), "gan5_b/generator_{}.pth".format(epoch))
+            # torch.save(dismodel.state_dict(), "dismodel_{}.pth".format(epoch))
+            torch.save(generator.state_dict(), "generator_{}.pth".format(epoch))
 
     for epoch in range(1, args.max_epoch + 1):
         # model.train()
         total_loss = 0
-        # for batch, (imgL, imgR, labels) in enumerate(train_data):
         for index, (inputs, labels) in enumerate(train_data):
             labels.data = labels.data % 10
             inputs, labels = inputs.to(DEVICE), labels.to(DEVICE)
@@ -190,8 +187,8 @@ def train(args, train_data):
             total_loss += loss.detach().item()
             # print("epoch", epoch, "batch", index, "loss:", loss.detach().item())
         if epoch % 5 == 0:
-            torch.save(dismodel.state_dict(), "gan5_b/dismodel_{}.pth".format(epoch))
-            # torch.save(generator.state_dict(), "gan5_a/generator_{}.pth".format(epoch))
+            torch.save(dismodel.state_dict(), "dismodel_{}.pth".format(epoch))
+            # torch.save(generator.state_dict(), "generator_{}.pth".format(epoch))
         print("epoch {} dismodel loss: {}".format(epoch, total_loss / (2 * len(trainset)) * args.batch_size))
 
 
