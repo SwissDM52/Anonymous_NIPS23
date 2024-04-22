@@ -1,4 +1,4 @@
-# Anonymous_IJCAI24
+# Anonymous_ECAI24
 
 The codes for reviewers.
 
